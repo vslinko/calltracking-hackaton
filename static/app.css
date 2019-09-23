@@ -1,0 +1,11 @@
+.offer {
+  border: 1px solid gray;
+}
+
+.offer-marked {
+  background: rgba(0, 255, 0, 0.5);
+}
+
+pre {
+  margin: 0;
+}

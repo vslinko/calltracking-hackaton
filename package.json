@@ -1,0 +1,32 @@
+{
+  "name": "ml-calltracking",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start:py": "nodemon --ext py --exec python src/text.py",
+    "start:node": "nodemon --ext ts --exec ts-node src/server.ts",
+    "start": "concurrently 'npm run start:py' 'npm run start:node'",
+    "test": "ts-node src/test.ts"
+  },
+  "dependencies": {
+    "@types/cli-progress": "^1.8.1",
+    "@types/express": "^4.17.1",
+    "@types/fast-levenshtein": "0.0.1",
+    "@types/luxon": "^1.15.2",
+    "@types/node": "^12.7.5",
+    "@types/node-fetch": "^2.5.1",
+    "@types/pg": "^7.11.1",
+    "cli-progress": "^3.1.0",
+    "concurrently": "^4.1.2",
+    "express": "^4.17.1",
+    "fast-levenshtein": "^2.0.6",
+    "luxon": "^1.18.0",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^1.19.2",
+    "pg": "^7.12.1",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  }
+}
