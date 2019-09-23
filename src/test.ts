@@ -47,7 +47,7 @@ async function main() {
 
     for await (const inputCase of readRasmetka(pool, ids)) {
       const enhancedCase = await enhanceCase(inputCase);
-      const analysedCase = analyseCase(enhancedCase);
+      const analysedCase = await analyseCase(enhancedCase);
 
       const bestMatch =
         analysedCase.offersAnalyses.length > 0

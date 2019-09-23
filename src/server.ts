@@ -30,7 +30,7 @@ app.get('/call/:id', async (req, res) => {
     }
 
     const enhancedCase = await enhanceCase(inputCase);
-    const analysedCase = analyseCase(enhancedCase);
+    const analysedCase = await analyseCase(enhancedCase);
 
     res.send(analysedCase);
   } catch (err) {

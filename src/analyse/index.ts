@@ -80,18 +80,18 @@ export interface IAnalisedCase extends IEnhancedCase {
   offersAnalyses: IOfferAnalysis[];
 }
 
-function analyseOffer(
+async function analyseOffer(
   call: IEnhancedCall,
   offer: IEnhancedOffer,
   clicks: IEnhancedClick[],
-): IOfferAnalysis {
+): Promise<IOfferAnalysis> {
   const analysis: IOfferAnalysis = {
     realtyid: offer.realtyid,
     matched_by_phone: offer.matched_by_phone,
     score: 0,
   };
 
-  analyseStreet(call, offer, clicks, analysis);
+  await analyseStreet(call, offer, clicks, analysis);
   analyseHouse(call, offer, clicks, analysis);
   analyseDealType(call, offer, clicks, analysis);
   analyseOfferType(call, offer, clicks, analysis);
@@ -149,12 +149,11 @@ function scoreOffers(offersAnalyses: IOfferAnalysis[]): void {
   offersAnalyses.sort((a, b) => b.score - a.score);
 }
 
-export function analyseCase(input: IEnhancedCase): IAnalisedCase {
-  const offersAnalyses = input.offers.map(offer => {
+export async function analyseCase(input: IEnhancedCase): Promise<IAnalisedCase> {
+  const offersAnalyses = await Promise.all(input.offers.map(offer => {
     const clicks = input.clicks.filter(c => c.realtyid === offer.realtyid);
-    const res = analyseOffer(input.call, offer, clicks);
-    return res;
-  });
+    return analyseOffer(input.call, offer, clicks);
+  }));
 
   scoreOffers(offersAnalyses);
 

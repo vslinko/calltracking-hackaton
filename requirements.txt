@@ -1,2 +1,3 @@
 aiohttp
 pymorphy2
+ru_soundex

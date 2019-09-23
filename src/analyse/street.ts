@@ -1,14 +1,14 @@
 import { IEnhancedCall, IEnhancedOffer, IEnhancedClick } from '../enhance';
-import { parseWords, relativeDistance } from '../text';
+import { parseWords, relativeDistance, wordDistancies } from '../text';
 import { IOfferAnalysis } from './index';
 import { features } from '../config';
 
-export function analyseStreet(
+export async function analyseStreet(
   call: IEnhancedCall,
   offer: IEnhancedOffer,
   clicks: IEnhancedClick[],
   analysis: IOfferAnalysis,
-): void {
+): Promise<void> {
   const offerStreet = offer.geo.address.find(g => g.type === 'street');
   const offerLocation = offer.geo.address
     .filter(g => g.type === 'location')
@@ -28,28 +28,33 @@ export function analyseStreet(
       )
     : [];
 
-  const matches = streetWords
-    .map((streetWord, streetWordIndex) => {
-      return call.normalizedWords.reduce(
-        (acc, word, wordIndex) => {
-          const distance = relativeDistance(streetWord, word);
+  const matches = (await wordDistancies(streetWords, call.normalizedWords))
+    .map((matches, streetWordIndex) => {
+      const streetWord = matches.word;
+      return matches.matches.reduce<{
+        distance: number;
+        streetWord: string;
+        streetWordIndex: number;
+        word: string;
+        wordIndex: number;
+      }>((acc, match, wordIndex) => {
+        const word = match.word;
+        const distance = match.distance;
 
-          if (distance > acc.distance) {
-            acc.distance = distance;
-            acc.word = word;
-            acc.wordIndex = wordIndex;
-          }
+        if (distance > acc.distance) {
+          acc.distance = distance;
+          acc.word = word;
+          acc.wordIndex = wordIndex;
+        }
 
-          return acc;
-        },
-        {
-          distance: 0,
-          streetWord,
-          streetWordIndex,
-          word: '',
-          wordIndex: -1,
-        },
-      );
+        return acc;
+      }, {
+        distance: 0,
+        streetWord,
+        streetWordIndex,
+        word: '',
+        wordIndex: -1,
+      });
     })
     .sort((a, b) => b.distance - a.distance);
 

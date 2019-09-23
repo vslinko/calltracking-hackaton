@@ -11,7 +11,7 @@ async function main() {
 
     for await (const inputCase of readInput(pool)) {
       const enhancedCase = await enhanceCase(inputCase);
-      const analysedCase = analyseCase(enhancedCase);
+      const analysedCase = await analyseCase(enhancedCase);
 
       const bestMatch =
         analysedCase.offersAnalyses.length > 0
