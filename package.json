@@ -22,7 +22,7 @@
     "express": "^4.17.1",
     "fast-levenshtein": "^2.0.6",
     "luxon": "^1.18.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "nodemon": "^1.19.2",
     "pg": "^7.12.1",
     "ts-node": "^8.4.1",
